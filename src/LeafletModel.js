@@ -31,7 +31,8 @@ const LeafletModel = {
   },
 
   setCenterAndZoom(center, zoom) {
-    this.option.center = center;
+    // center received here is in lat, lng, so swap it
+    this.option.center = [center[1], center[0]];
     this.option.zoom = zoom;
   },
 
@@ -41,7 +42,7 @@ const LeafletModel = {
   },
 
   defaultOption: {
-    center: [63.43049, 10.39506],
+    center: [10.39506, 63.43049], // lng, lat
     zoom: 6,
     // extension specific options
     echartsLayerInteractive: true,

@@ -1,5 +1,5 @@
 import { use } from 'echarts/core'
-
+import { HeatmapSeriesOption } from 'echarts/charts'
 type UnionToIntersection<U> =
   (U extends any ? (k: U) => void : never) extends ((k: infer I) => void) ? I : never
 
@@ -15,6 +15,11 @@ type EChartsExtensionInstallRegisters = Parameters<TuplifyUnion<Parameters<typeo
 
 type EChartsRegisters = EChartsExtensionInstallRegisters
 
+// HeatmapSeriesOption does not support 'lmap'
+type LeafletHeatmapSeriesOption = HeatmapSeriesOption & {
+  coordinateSystem: 'lmap'
+}
+
 /**
  * To install Leaflet component
  * @param registers registers echarts registers.
@@ -22,4 +27,4 @@ type EChartsRegisters = EChartsExtensionInstallRegisters
 declare function install(registers: EChartsRegisters): void
 
 export * from './types'
-export { install as LeafletComponent }
+export { install as LeafletComponent, LeafletHeatmapSeriesOption }

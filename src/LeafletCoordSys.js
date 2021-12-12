@@ -75,7 +75,7 @@ function LeafletCoordSys(lmap, api) {
   this._api = api;
   this._mapOffset = [0, 0];
   this._projection = Projection.Mercator;
-  // this.dimensions = ['lat', 'lng']
+  // this.dimensions = ['lat', 'lng'] // Is Leaflet default, but incompatible with echarts heatmap since isGeoCoordSys in HeatMapView.ts, checks for [0] === 'lng', [1] === 'lat'
 }
 
 const LeafletCoordSysProto = LeafletCoordSys.prototype;
@@ -85,7 +85,8 @@ LeafletCoordSysProto.setZoom = function(zoom) {
 };
 
 LeafletCoordSysProto.setCenter = function(center) {
-  this._center = this._projection.project(new LatLng(center[0], center[1]));
+  const latlng = this._projection.project(new LatLng(center[1], center[0])); // lng, lat
+  this._center = [latlng.lng, latlng.lat];
 };
 
 LeafletCoordSysProto.setMapOffset = function(mapOffset) {
@@ -101,7 +102,7 @@ LeafletCoordSysProto.getLeaflet = function() {
 };
 
 LeafletCoordSysProto.dataToPoint = function(data) {
-  const latlng = new LatLng(data[0], data[1]);
+  const latlng = new LatLng(data[1], data[0]); // lng, lat
   const px = this._lmap.latLngToLayerPoint(latlng);
   const mapOffset = this._mapOffset;
   return [px.x - mapOffset[0], px.y - mapOffset[1]];
@@ -114,7 +115,7 @@ LeafletCoordSysProto.pointToData = function(pt) {
       y: pt[1] + mapOffset[1]
     }
   );
-  return [coord.lat, coord.lng];
+  return [coord.lng, coord.lat]; // lng, lat
 };
 
 LeafletCoordSysProto.getViewRect = function() {
@@ -171,7 +172,7 @@ LeafletCoordSys.create = function(ecModel, api) {
         root.removeChild(lmapRoot);
       }
       lmapRoot = document.createElement('div');
-      lmapRoot.classList.add('ec-extension-leaflet');
+      lmapRoot.className =  'ec-extension-leaflet';
       lmapRoot.style.cssText = 'position:absolute;top:0;left:0;bottom:0;right:0;';
       root.appendChild(lmapRoot);
 
@@ -183,16 +184,6 @@ LeafletCoordSys.create = function(ecModel, api) {
       });
 
       lmap = new LMap(lmapRoot, options);
-
-      // DEFER: adding baselayers and tilelayers and controls as part of options
-      const baseLayer1 = tileLayer(
-        'https://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}',
-        {
-          attribution:
-          'Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, Esri'
-        }
-      );
-      lmap.addLayer(baseLayer1);
 
       /*
        Encapsulate viewportRoot element into
@@ -220,14 +211,14 @@ LeafletCoordSys.create = function(ecModel, api) {
     const center = lmapModel.get('center');
     const zoom = lmapModel.get('zoom');
     if (center && zoom) {
-      const lmapCenter = lmap.getCenter();
+      const lmapCenter = lmap.getCenter(); // leaflet lat lng
       const lmapZoom = lmap.getZoom();
       const centerOrZoomChanged = lmapModel.centerOrZoomChanged(
-        [lmapCenter.lat, lmapCenter.lng],
+        [lmapCenter.lng, lmapCenter.lat], // lng, lat
         lmapZoom
       );
       if (centerOrZoomChanged) {
-        lmap.setView(new LatLng(center[0], center[1]), zoom);
+        lmap.setView(new LatLng(center[1], center[0]), zoom); // lng, lat
       }
     }
 
@@ -246,6 +237,6 @@ LeafletCoordSys.create = function(ecModel, api) {
   });
 };
 
-LeafletCoordSysProto.dimensions = LeafletCoordSys.dimensions = ['lat', 'lng'];
+LeafletCoordSysProto.dimensions = LeafletCoordSys.dimensions = ['lng', 'lat']; // lng, lat
 
 export default LeafletCoordSys;

@@ -38,9 +38,16 @@ const LeafletView = {
         dx = -parseInt(offsetEl.style.left, 10);
         dy = -parseInt(offsetEl.style.top, 10);
       }
-      let mapOffset = [dx, dy];
-      moveContainer.style.left = `${mapOffset[0]}px`;
-      moveContainer.style.top = `${mapOffset[1]}px`;
+
+      const mapOffset = [dx, dy];
+      const offsetLeft = mapOffset[0] + 'px';
+      const offsetTop = mapOffset[1] + 'px';
+      if (moveContainer.style.left !== offsetLeft) {
+        moveContainer.style.left = offsetLeft;
+      }
+      if (moveContainer.style.top !== offsetTop) {
+        moveContainer.style.top = offsetTop;
+      }
 
       coordSys.setMapOffset(lmapModel.__mapOffset = mapOffset);
 

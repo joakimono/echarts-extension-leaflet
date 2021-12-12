@@ -45,6 +45,13 @@ import * as echarts from 'echarts';
 import 'echarts-extension-leaflet';
 ```
 
+### Notes
+
+  - *Note*: Coordinates are given as `[lng, lat]` for option center.
+  - In order to be compatible with echarts' heatmap, the coordinate dimensions are swapped in comparison to Leaflet's convention.
+  - When using brush and interacting with other echarts graphics, pressing left Ctrl will disable map dragging while pressed.
+  - By default no layers are added, so you need to get the leaflet instance and add it yourself, see below
+  - HeatmapSeriesOptions does not recognize 'lmap' as a valid coordinateSystem option, you need to import an extended variant: `import { LeafletHeatmapSeriesOption } from 'echarts-extension-leaflet/export'`
 
 **Apache ECharts 5 import on demand**
 
@@ -118,8 +125,9 @@ option = {
   lmap: {
     // initial options of Leaflet
     // See https://leafletjs.com/reference.html#map-option for details
-    // initial map center [lat, lng]
-    center: [60, 10],
+    // initial map center [lng, lat]
+    // NOTE: note that this order is reversed from Leaflet's [lat, lng]!
+    center: [10, 60],
     // initial map zoom
     zoom: 4,
     // whether the map and echarts automatically handles browser window resize to update itself.
@@ -143,8 +151,8 @@ option = {
       type: 'scatter',
       // use `lmap` as the coordinate system
       coordinateSystem: 'lmap',
-      // data items [[lat, lng, value], [lat, lng, value], ...]
-      data: [[30, 120, 8], [30.2, 120.1 20]],
+      // data items [[lng, lat, value], [lng, lat, value], ...]
+      data: [[120, 30, 8], [120.1, 20]],
       encode: {
         // encode the third element of data item as the `value` dimension
         value: 2
@@ -154,8 +162,14 @@ option = {
 };
 
 // Get Leaflet extension component
+// getModel and getComponent do not seem to be exported in echarts typescript
+// add the following two comments to circumvent this
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 const lmapComponent = chart.getModel().getComponent('lmap');
 // Get the instance of Leaflet
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 const lmap = lmapComponent.getLeaflet();
 // Add some controls provided by Leaflet.
 // Make the overlay layer of Leaflet interactive

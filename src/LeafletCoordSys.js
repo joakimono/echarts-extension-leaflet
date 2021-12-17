@@ -128,6 +128,7 @@ LeafletCoordSysProto.getRoamTransform = function() {
 };
 
 LeafletCoordSysProto.prepareCustoms = function() {
+  const rect = this.getViewRect();
   return {
     coordSys: {
       // The name exposed to user is always 'cartesian2d' but not 'grid'.

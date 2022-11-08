@@ -1,0 +1,10 @@
+* ECharts and Leaflet with TypeScript
+
+  This example shows how to use the extension in TypeScript using minimal bundle and webpack.
+  To build the example it assumes a recent version of =npm=:
+  #+begin_src shell
+    cd examples/typescript
+    npm install
+    npm run build
+    xdg-open index.html
+  #+end_src

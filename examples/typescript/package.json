@@ -1,0 +1,26 @@
+{
+  "name": "echarts-leaflet-extension-example",
+  "version": "1.0.0",
+  "description": "Typescripted echarts leaflet extension with webpack",
+  "entry": "./index.ts",
+  "main": "./dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/leaflet": "^1.7.11",
+    "css-loader": "^6.7.1",
+    "style-loader": "^3.3.1",
+    "ts-loader": "^9.3.1",
+    "typescript": "^4.8.2",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
+  },
+  "dependencies": {
+    "@joakimono/echarts-extension-leaflet": "^1.0.0"
+  }
+}

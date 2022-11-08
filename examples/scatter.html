@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="cleartype" content="on" />
+    <meta http-equiv="x-dns-prefetch-control" content="on" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Example using scatter chart with echarts-extension-leaflet</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
+      integrity="sha512-UkezATkM8unVC0R/Z9Kmq4gorjNoFwLMAWR/1yZpINW08I79jEKx/c8NlLSvvimcu7SL8pgeOnynxfRpe+5QpA=="
+      crossorigin="anonymous"
+    />
+    <!-- https://www.srihash.org/ is used to create integrity checksums-->
+    <script
+      src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
+      integrity="sha512-KMraOVM0qMVE0U1OULTpYO4gg5MZgazwPAPyMQWfOkEshpwlLQFCHZ/0lBXyviDNVL+pBGwmeXQnuvGK8Fscvg=="
+      crossorigin="anonymous"
+    ></script>
+    <!-- ECharts CDN -->
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"
+    ></script>
+    <!-- echarts leaflet extension -->
+    <script
+      type="text/javascript"
+      src="../dist/echarts-extension-leaflet.js"
+    ></script>
+    <style type="text/css">
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body,
+      #echarts-lmap {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="echarts-lmap"></div>
+    <script type="text/javascript">
+      var option = {
+        lmap: {
+          // Initial options of Leaflet
+          // See https://leafletjs.com/reference.html#map-option for details
+          // NOTE: note that this order is reversed from Leaflet's [lat, lng]!
+          center: [10, 60], // [lng, lat]
+          zoom: 4,
+          // Whether the map and echarts automatically handles browser window resize to update itself.
+          resizeEnable: true,
+          // Whether echarts layer should be rendered when the map is moving. Default is true.
+          // if false, it will only be re-rendered after the map `moveend`.
+          // It's better to set this option to false if data is large.
+          renderOnMoving: true,
+          // echarts layer is interactive. Default: true
+          echartsLayerInteractive: true,
+          // enable large mode. Default: false
+          largeMode: false,
+          // Note: Please DO NOT use the initial option `layers` to add Satellite/RoadNet/Other layers now.
+          // Do it after you have retrieved the leaflet instance.
+        },
+        series: [
+          {
+            type: "scatter",
+            // use `lmap` as the coordinate system
+            coordinateSystem: "lmap",
+            // data items [[lng, lat, value], [lng, lat, value], ...]
+            data: [
+              [10, 60, 8],
+              [10.1, 60, 20],
+            ],
+            encode: {
+              // encode the third element of data item as the `value` dimension
+              value: 2,
+            },
+          },
+          {
+            type: "effectScatter",
+            // use `lmap` as the coordinate system
+            coordinateSystem: "lmap",
+            // data items [[lng, lat, value], [lng, lat, value], ...]
+            data: [
+              [11, 60, 8],
+              [11.1, 60, 20],
+            ],
+            encode: {
+              // encode the third element of data item as the `value` dimension
+              value: 2,
+            },
+          },
+        ],
+      };
+
+      // initialize echart
+      var chart = echarts.init(document.getElementById("echarts-lmap"));
+      chart.setOption(option);
+
+      // get Leaflet extension component and Leaflet instance
+      var lmapComponent = chart.getModel().getComponent("lmap");
+      var lmap = lmapComponent.getLeaflet();
+
+      L.tileLayer(
+        "https://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}",
+        {
+          attribution:
+            "Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, Esri",
+        }
+      ).addTo(lmap);
+    </script>
+  </body>
+</html>

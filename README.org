@@ -4,8 +4,8 @@
   such as [[https://echarts.apache.org/en/option.html#series-scatter][Scatter]], [[https://echarts.apache.org/en/option.html#series-lines][Lines]], [[https://echarts.apache.org/en/option.html#series-heatmap][Heatmap]], and [[https://echarts.apache.org/en/option.html#series-pie][Pie]] charts. Supports ECharts >= 5.0.1.
 
   This work is based on
-  + [echarts-extension-amap](https://github.com/plainheart/echarts-extension-amap) and
-  + [echarts-leaflet](https://github.com/gnijuohz/echarts-leaflet).
+  + [[https://github.com/plainheart/echarts-extension-amap][echarts-extension-amap]] and
+  + [[https://github.com/gnijuohz/echarts-leaflet][echarts-leaflet]]
 
 ** Installation
 
@@ -21,10 +21,6 @@
    - With TypeScript, =HeatmapSeriesOptions= does not recognize =lmap= as a valid
      =coordinateSystem= option. You need to import an extended variant:
      =import { LeafletHeatmapSeriesOption } from 'echarts-extension-leaflet/export'=
-
-** Known issues
-
-   - There are wrongful use of listeners
 
 ** Usage
 

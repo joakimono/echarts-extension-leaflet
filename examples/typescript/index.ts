@@ -5,15 +5,23 @@ import {
   ScatterSeriesOption,
   EffectScatterChart,
   EffectScatterSeriesOption,
+  HeatmapChart,
+  //HeatmapSeriesOption, // import LeafletHeatmapSeriesOption instead
 } from "echarts/charts";
 
-import { TooltipComponent, TitleComponentOption } from "echarts/components";
+import {
+  TooltipComponent,
+  TitleComponentOption,
+  VisualMapComponent,
+  VisualMapComponentOption,
+} from "echarts/components";
 
 import { CanvasRenderer } from "echarts/renderers";
 
 import {
   LeafletComponent,
   LeafletComponentOption,
+  LeafletHeatmapSeriesOption,
 } from "@joakimono/echarts-extension-leaflet/src/export";
 
 import "leaflet/dist/leaflet.css";
@@ -21,7 +29,11 @@ import { tileLayer as LtileLayer, MapOptions } from "leaflet";
 
 // compose required options
 type ECOption = ComposeOption<
-  ScatterSeriesOption | EffectScatterSeriesOption | TitleComponentOption
+  | TitleComponentOption
+  | VisualMapComponentOption
+  | LeafletHeatmapSeriesOption
+  | ScatterSeriesOption
+  | EffectScatterSeriesOption
   // unite LeafletComponentOption with the initial options of Leaflet `MapOptions`
 > &
   LeafletComponentOption<MapOptions>;
@@ -31,11 +43,14 @@ use([
   CanvasRenderer,
   TooltipComponent,
   LeafletComponent,
+  VisualMapComponent,
   ScatterChart,
   EffectScatterChart,
+  HeatmapChart,
 ]);
 
 // define ECharts option
+
 const option: ECOption = {
   lmap: {
     // See https://leafletjs.com/reference.html#map-option for details
@@ -53,6 +68,17 @@ const option: ECOption = {
   },
   title: {
     text: "Scatter chart",
+  },
+  visualMap: {
+    show: true, // or false if you do not want to show it
+    left: 20,
+    min: 0,
+    max: 5,
+    seriesIndex: 2,
+    calculable: true,
+    inRange: {
+      color: ["blue", "blue", "green", "yellow", "red"],
+    },
   },
   series: [
     {
@@ -83,6 +109,21 @@ const option: ECOption = {
         value: 2,
       },
     },
+    {
+      // TODO: figure out why heatmap is not registered
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      type: "heatmap",
+      // use `lmap` as the coordinate system
+      coordinateSystem: "lmap",
+      // data items [[lng, lat, value], [lng, lat, value], ...]
+      data: [
+        [12, 60, 8],
+        [12.1, 60, 20],
+      ],
+      //pointSize: 5,
+      //blurSize: 6,
+    },
   ],
 };
 
@@ -102,9 +143,9 @@ const lmapComponent = chart.getModel().getComponent("lmap");
 const lmap = lmapComponent.getLeaflet();
 
 LtileLayer(
-  "https://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}",
+  "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
   {
     attribution:
-      "Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, Esri",
+      "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community",
   }
 ).addTo(lmap);

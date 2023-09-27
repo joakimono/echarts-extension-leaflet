@@ -20,7 +20,7 @@
    - Layers have to be added after creation of the ECharts and the ECharts-managed Leaflet instance.
    - With TypeScript, =HeatmapSeriesOptions= does not recognize =lmap= as a valid
      =coordinateSystem= option. You need to import an extended variant:
-     =import { LeafletHeatmapSeriesOption } from 'echarts-extension-leaflet/export'=
+     =import { LeafletHeatmapSeriesOption } from '@joakimono/echarts-extension-leaflet/export'=
 
 ** Usage
 
@@ -221,10 +221,10 @@
       const lmap = lmapComponent.getLeaflet();
 
       LtileLayer(
-        "https://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}",
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
         {
           attribution:
-          "Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, Esri",
+          "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community",
         }
       ).addTo(lmap);
 

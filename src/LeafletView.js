@@ -1,5 +1,5 @@
 import { ComponentView, getInstanceByDom, throttle } from 'echarts/core';
-import { isNewEC, clearLogMap } from './helper';
+import { clearLogMap } from './helper';
 
 const LeafletView = {
   type: 'lmap',

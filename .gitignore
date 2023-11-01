@@ -1,2 +1,4 @@
 node_modules
 examples/typescript/node_modules
+examples/typescript/package-lock.json
+examples/typescript/dist/

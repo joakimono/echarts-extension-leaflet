@@ -36,7 +36,7 @@ type LeafletHeatmapSeriesOption = HeatmapSeriesOption & {
  * To install Leaflet component
  * @param registers registers echarts registers.
  */
-declare function install(registers: EChartsExtensionRegisters): void;
+export declare function install(registers: EChartsExtensionRegisters): void;
 
 export * from "./types";
 export { install as LeafletComponent, LeafletHeatmapSeriesOption };

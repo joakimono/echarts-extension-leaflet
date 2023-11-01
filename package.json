@@ -1,6 +1,6 @@
 {
   "name": "@joakimono/echarts-extension-leaflet",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Leaflet map extension for Apache Echarts 5",
   "main": "./dist/echarts-extension-leaflet.js",
   "module": "./src/index.js",

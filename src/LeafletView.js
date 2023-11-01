@@ -72,8 +72,7 @@ const LeafletView = {
 
     let ctrlStartHandler = function(e) {
       if(e.originalEvent.code === 'ControlLeft') {
-      lmap.dragging.disable();
-      moveHandler(e);
+        lmap.dragging.disable();
       }
     };
 
@@ -121,7 +120,7 @@ const LeafletView = {
     if(!renderOnMoving && !this._moveEndHandler) {
       const moveEndHandler = function(e) {
         setTimeout(function() {
-          lmapModel.setEChartsLayerVisiblity(true);
+          lmapModel.setEChartsLayerVisibility(true);
         }, !largeMode ? 0 : 20);
       };
       this._moveEndHandler = moveEndHandler;
@@ -129,16 +128,21 @@ const LeafletView = {
       lmap.on('zoomend', moveEndHandler);
     }
 
-    lmap.on('keydown', ctrlStartHandler);
-    lmap.on('keyup', ctrlEndHandler);
+    if(this._ctrlStartHandler) {
+      lmap.on('keydown', this._ctrlStartHandler);
+    }
+
+    if(this._ctrlEndHandler) {
+      lmap.on('keyup', this._ctrlEndHandler);
+    }
 
     this._moveHandler = moveHandler;
 
     if (!renderOnMoving) {
       const moveStartHandler = function() {
-        lmapModel.setEChartsLayerVisiblity(false);
+        lmapModel.setEChartsLayerVisibility(false);
         setTimeout(function() {
-          lmapModel.setEChartsLayerVisiblity(true);
+          lmapModel.setEChartsLayerVisibility(true);
         }, 500);
       };
       this._moveStartHandler = moveStartHandler;

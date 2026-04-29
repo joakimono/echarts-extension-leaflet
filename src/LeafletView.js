@@ -153,7 +153,7 @@ const LeafletView = {
 
     if (resizeEnable) {
       let resizeHandler = function() {
-        getInstanceByDom(api.getDom()).resize();
+        getInstanceByDom(api.getDom())?.resize();
       };
       if (largeMode) {
         resizeHandler = throttle(resizeHandler, 20, true);

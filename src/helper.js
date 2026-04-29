@@ -1,4 +1,4 @@
-import { version } from "echarts/core"; //lib/echarts";
+import { version } from "echarts/core";
 
 export const ecVer = version.split('.');
 

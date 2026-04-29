@@ -1,7 +1,3 @@
-import { version } from "echarts/core";
-
-export const ecVer = version.split('.');
-
 export function v2Equal(a, b) {
   return a && b && a[0] === b[0] && a[1] === b[1];
 }

@@ -10,7 +10,7 @@ function install(registers) {
 
   // Pie series center conversion for custom coordinate systems
   // Native echarts pie coordinateSystem support has issues with custom coord sys center conversion
-  registers.registerLayout(function(ecModel, api) {
+  registers.registerLayout(function(ecModel) {
     ecModel.eachSeriesByType('pie', function (seriesModel) {
       const coordSys = seriesModel.coordinateSystem;
       const data = seriesModel.getData();
@@ -20,7 +20,7 @@ function install(registers) {
         const point = coordSys.dataToPoint(center);
         const cx = point[0];
         const cy = point[1];
-        data.each(valueDim, function (value, idx) {
+        data.each(valueDim, function (_value, idx) {
           const layout = data.getItemLayout(idx);
           layout.cx = cx;
           layout.cy = cy;

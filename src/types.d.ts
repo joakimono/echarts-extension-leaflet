@@ -1,5 +1,5 @@
 declare const name = "echarts-extension-leaflet";
-declare const version = "1.1.1";
+declare const version = "1.1.2";
 
 interface InnerLeafletComponentOption {
   /**

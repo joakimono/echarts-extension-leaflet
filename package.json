@@ -1,6 +1,6 @@
 {
   "name": "@joakimono/echarts-extension-leaflet",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Leaflet map extension for Apache ECharts 5 & 6",
   "main": "./dist/echarts-extension-leaflet.js",
   "module": "./src/index.js",
@@ -49,9 +49,7 @@
   },
   "devDependencies": {
     "clean-webpack-plugin": "^4.0.0",
-    "ts-loader": "^9.5.2",
-    "typescript": "^5.7.0",
-    "webpack": "^5.97.0",
-    "webpack-cli": "^5.1.4"
+    "webpack": "^5.112.1",
+    "webpack-cli": "^7.2.3"
   }
 }
